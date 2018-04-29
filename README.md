@@ -1,7 +1,7 @@
 # News-Spider
 A spider based scrapy, 
-使用scrapy框架,urllib库,pymsql库
-运行环境ubuntu16.04 python3.5
+使用scrapy框架,urllib库,pymsql库  
+运行环境ubuntu16.04, python3.5  
 进入news文件夹后, 在命令行输入 
 > scrapy crawl newsSpider  
 
