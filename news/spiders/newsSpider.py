@@ -39,18 +39,24 @@ class NewsspiderSpider(scrapy.Spider):
                 tempNews['newsSource'] = newsSource
                 tempNews['newsTitle'] = newInfoSelector.xpath('./a/text()').extract()[0]
                 tempNews['newsUrl'] = newInfoSelector.xpath('./a/@href').extract()[0]
-                # 用于爬取文本
-                NewsDetail = urllib.request.urlopen(tempNews['newsUrl'])
-                NewsWebpage = NewsDetail.read().decode('utf-8')
-                newsTextSelector = Selector(text=NewsWebpage).xpath('//div[@class="article"]/p')
-                newsText = ''
-                for subText in newsTextSelector:
-                    newsText = newsText + subText.xpath('string(.)').extract()[0] + '\n'
-                tempNews['newsText'] = newsText
-                yield tempNews
+                # yield tempNews
+                yield scrapy.Request(
+                    url=tempNews['newsUrl'],
+                    meta={'item': tempNews},
+                    callback=self.detailParse,
+                    dont_filter=True
+                )
         # url跟进
         url = response.xpath("//a[contains(text(),'下一页')]/@href").extract()[0]
         if url:
             page = 'http://roll.finance.sina.com.cn/finance/zq1/' + page + url[1:]
             yield scrapy.Request(page, callback=self.parse)
-        # return news
+
+    def detailParse(self, response):
+        newsTextSelector = response.xpath('//div[@class="article"]/p')
+        newsText = ''
+        for subText in newsTextSelector:
+            newsText = newsText + subText.xpath('string(.)').extract()[0] + '\n'
+        item = response.meta['item']
+        item['newsText'] = newsText
+        yield item

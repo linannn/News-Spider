@@ -14,7 +14,6 @@ class NewsPipeline(object):
         print(item['newsTitle'])
         print(item['newsUrl'])
         print(item['newsDate'])
-        print(len(item['newsTitle']))
         print('---------------')
         return item
 
