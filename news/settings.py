@@ -65,8 +65,9 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    #'news.pipelines.NewsPipeline': 300,
-    'news.pipelines.NewsMySql': 100,
+    # 'news.pipelines.NewsPipeline': 300,
+    # 'news.pipelines.NewsMySql': 100,
+    'news.pipelines.NewsMySqlWithText': 150,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

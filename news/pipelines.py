@@ -24,6 +24,7 @@ class NewsMySql(object):
         title = item['newsTitle']
         url = item['newsUrl']
         date = item['newsDate']
+        source = item['newsSource']
         # text = item['newsText']
 
         conn = pymysql.connect(
@@ -36,13 +37,10 @@ class NewsMySql(object):
         )
         cur = conn.cursor()
         print('connect to database success')
-        # create table financeNews(id int auto_increment,title text,url text,date text,text text,primary key(id) )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-        # create table financeNewsWithoutText(id int auto_increment,title text,url text,date text,primary key(id) )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        # create table financeNewsWithoutText(id int auto_increment,source text,title text,url text,date text,primary key(id) )ENGINE=InnoDB DEFAULT CHARSET=utf8;
         cur.execute(
-            # "INSERT INTO financeNews(title, url, date, text) values(%s, %s, %s, %s)",
-            # (title, url, date, text)
-            "INSERT INTO financeNewsWithoutText(title, url, date) values(%s, %s, %s)",
-            (title, url, date)
+            "INSERT INTO financeNewsWithoutText(source, title, url, date) values(%s, %s, %s, %s)",
+            (source, title, url, date)
         )
         cur.close()
         conn.commit()
@@ -57,6 +55,7 @@ class NewsMySqlWithText(object):
         url = item['newsUrl']
         date = item['newsDate']
         text = item['newsText']
+        source = item['newsSource']
 
         conn = pymysql.connect(
             host='localhost',
@@ -68,10 +67,10 @@ class NewsMySqlWithText(object):
         )
         cur = conn.cursor()
         print('connect to database success')
-        # create table financeNews(id int auto_increment,title text,url text,date text,text text,primary key(id) )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        # create table financeNews(id int auto_increment,source text,title text,url text,date text,text text,primary key(id) )ENGINE=InnoDB DEFAULT CHARSET=utf8;
         cur.execute(
-            "INSERT INTO financeNews(title, url, date, text) values(%s, %s, %s, %s)",
-            (title, url, date, text)
+            "INSERT INTO financeNews(source, title, url, date, text) values(%s, %s, %s, %s, %s)",
+            (source, title, url, date, text)
         )
         cur.close()
         conn.commit()
